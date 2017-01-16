@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 覆盖 JLibrary config, start -->
+    <bool name="_j_debug_model">false</bool>
+    <string name="_j_debug_log_tag">mvp.log.DEGREE</string>
+
+    <string name="_j_root_cache_dir_debug">MvpDebug</string>
+    <string name="_j_root_sd_data_dir">Mvp</string>
+    <!-- 覆盖 JLibrary config, end -->
+
+</resources>

@@ -1,0 +1,3 @@
+include ':app'
+include ':JLibrary'
+project(':JLibrary').projectDir = new File(settingsDir, "../JLibrary/library")
