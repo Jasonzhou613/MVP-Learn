@@ -1,6 +1,10 @@
 package com.ttsea.mvp.module.login;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.view.KeyEvent;
 
 import com.ttsea.jlibrary.common.JLog;
 import com.ttsea.jlibrary.utils.Utils;
@@ -29,6 +33,7 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
     private final int REQUEST_CODE_LOGIN = 0x001;
 
     private Login.View loginView;
+    private Intent loginSuccessIntent;
 
     public LoginPresenter(Context context, Login.View view) {
         super(context);
@@ -36,6 +41,10 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
         loginView.setPresenter(this);
 
         initVariables();
+    }
+
+    public void setLoginSuccessIntent(Intent loginSuccessIntent) {
+        this.loginSuccessIntent = loginSuccessIntent;
     }
 
     @Override
@@ -63,7 +72,14 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
 
         JLog.d(TAG, "login, userName:" + userName + ", pwd:" + pwd);
 
-        loginView.showProgress(null, "正在登入...", true);
+        loginView.showDialog("正在登录...", new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                loginView.finish(Activity.RESULT_CANCELED);
+                return false;
+            }
+        });
+
         //test login
         String loginUrl = "http://test.api.huiweishang.com/app/ver5.2.0/login.php";
         Map<String, String> loginParams = new HashMap<>();
@@ -72,7 +88,7 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
 
         String indexUrl = "http://test.api.huiweishang.com/app/ver5.2.0/index.hws.php";
 
-//        addRequest(indexUrl, Http.Method.POST, null, null, getRequestTag(), true, 10, 3);
+        //addRequest(indexUrl, Http.Method.POST, null, null, getRequestTag(), true, 10, 3);
         addRequest(loginUrl, loginParams, REQUEST_CODE_LOGIN);
     }
 
@@ -84,7 +100,7 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
 
         switch (requestCode) {
             case REQUEST_CODE_LOGIN:
-                RxBus.getInstance().post(new LoginEventEntity(LoginEventEntity.ACTION_LOGIN_FAILED, errorMsg));
+                loginView.toastMessage("login failed, reason:" + errorMsg);
                 break;
 
             default:
@@ -101,7 +117,10 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
         switch (requestCode) {
             case REQUEST_CODE_LOGIN:
                 loginView.dismissAllDialog();
-                RxBus.getInstance().post(new LoginEventEntity(LoginEventEntity.ACTION_LOGIN_SUCCESS));
+                LoginEventEntity loginEventEntity = new LoginEventEntity(LoginEventEntity.ACTION_LOGIN_SUCCESS);
+                loginEventEntity.setIntent(loginSuccessIntent);
+                RxBus.getInstance().post(loginEventEntity);
+                loginView.finish(Activity.RESULT_OK);
                 break;
 
             default:

@@ -38,6 +38,12 @@ public class LoginActivity extends BaseActivity implements Login.View {
         setContentView(R.layout.login_main);
 
         loginPresenter = new LoginPresenter(mActivity, this);
+        if (getIntent() != null && getIntent().getExtras() != null
+                && getIntent().getExtras().getParcelable("intent") != null
+                && getIntent().getExtras().getParcelable("intent") instanceof Intent) {
+            Intent intent = (Intent) getIntent().getExtras().getParcelable("intent");
+            loginPresenter.setLoginSuccessIntent(intent);
+        }
 
         etUserName = (EditText) findViewById(R.id.etUserName);
         etPwd = (EditText) findViewById(R.id.etPwd);

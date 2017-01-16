@@ -185,28 +185,36 @@ public class BaseActivity extends Activity implements BaseView<BasePresenter> {
     /** 显示dialog */
     @Override
     public void showDialog(String msg, boolean canceledOnTouchOutside) {
-        showDialog(msg, canceledOnTouchOutside, true);
+        showDialog(msg, null, null, canceledOnTouchOutside, true);
     }
 
     /** 显示dialog */
     @Override
     public void showDialog(String msg, boolean canceledOnTouchOutside, boolean cancelable) {
-        showDialog(msg, null, canceledOnTouchOutside, cancelable);
+        showDialog(msg, null, null, canceledOnTouchOutside, cancelable);
     }
 
     /** 显示dialog */
     @Override
-    public void showDialog(String msg, DialogInterface.OnDismissListener listener) {
-        showDialog(msg, listener, false, true);
+    public void showDialog(String msg, DialogInterface.OnDismissListener dismissListener) {
+        showDialog(msg, dismissListener, null, false, true);
     }
 
     /** 显示dialog */
     @Override
-    public void showDialog(String msg, DialogInterface.OnDismissListener listener, boolean canceledOnTouchOutside, boolean cancelable) {
+    public void showDialog(String msg, DialogInterface.OnKeyListener onKeyListener) {
+        showDialog(msg, null, onKeyListener, false, true);
+    }
+
+    /** 显示dialog */
+    @Override
+    public void showDialog(String msg, DialogInterface.OnDismissListener dismissListener, DialogInterface.OnKeyListener keyListener,
+                           boolean canceledOnTouchOutside, boolean cancelable) {
         if (myDialog == null || myDialog.isShowing()) {
             return;
         }
-        myDialog.setOnDismissListener(listener);
+        myDialog.setOnDismissListener(dismissListener);
+        myDialog.setOnKeyListener(keyListener);
         myDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
         myDialog.setCancelable(cancelable);
         myDialog.show(msg);
@@ -336,14 +344,14 @@ public class BaseActivity extends Activity implements BaseView<BasePresenter> {
         showToast(getStringById(resId));
     }
 
-    /** finish该acitivity，并且设置resultCode */
+    /** finish该activity，并且设置resultCode */
     @Override
     public void finish(int resultCode) {
         mActivity.setResult(resultCode);
         mActivity.finish();
     }
 
-    /** finish该acitivity，并且设置resultCode和Intent */
+    /** finish该activity，并且设置resultCode和Intent */
     @Override
     public void finish(int resultCode, Intent data) {
         mActivity.setResult(resultCode, data);

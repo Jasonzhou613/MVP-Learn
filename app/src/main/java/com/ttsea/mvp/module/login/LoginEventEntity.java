@@ -1,5 +1,7 @@
 package com.ttsea.mvp.module.login;
 
+import android.content.Intent;
+
 import java.io.Serializable;
 
 /**
@@ -18,6 +20,7 @@ public class LoginEventEntity implements Serializable {
     public static final int ACTION_LOGIN_FAILED = -1;
 
     private int status = ACTION_LOGIN_FAILED;
+    private Intent intent;
     private String msg = "";
 
     public LoginEventEntity(int status) {
@@ -30,12 +33,19 @@ public class LoginEventEntity implements Serializable {
     }
 
     public int getStatus() {
-
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Intent getIntent() {
+        return intent;
+    }
+
+    public void setIntent(Intent intent) {
+        this.intent = intent;
     }
 
     public String getMsg() {

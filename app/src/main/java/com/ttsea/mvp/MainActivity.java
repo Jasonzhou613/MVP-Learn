@@ -46,6 +46,9 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.btnLogin:
                 intent = new Intent(mActivity, LoginActivity.class);
+                bundle = new Bundle();
+                bundle.putParcelable("intent", new Intent(mActivity, MainGuideActivity.class));
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
 
@@ -63,10 +66,12 @@ public class MainActivity extends BaseActivity {
     public void onLoginEvent(LoginEventEntity loginEventEntity) {
         if (loginEventEntity.getStatus() == LoginEventEntity.ACTION_LOGIN_SUCCESS) {
             JToast.makeText(mActivity, "login success");
+            if (loginEventEntity.getIntent() != null) {
+                startActivity(loginEventEntity.getIntent());
+            }
 
         } else if (loginEventEntity.getStatus() == LoginEventEntity.ACTION_LOGIN_FAILED) {
             JToast.makeText(mActivity, "login failed, reason:" + loginEventEntity.getMsg());
         }
     }
-
 }
