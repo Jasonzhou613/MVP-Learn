@@ -31,6 +31,9 @@ public interface BaseView<T> {
     void showDialog(String msg, boolean canceledOnTouchOutside, boolean cancelable);
 
     /** 显示dialog */
+    void showDialog(String msg, DialogInterface.OnDismissListener listener);
+
+    /** 显示dialog */
     void showDialog(String msg, DialogInterface.OnDismissListener listener, boolean canceledOnTouchOutside, boolean cancelable);
 
 

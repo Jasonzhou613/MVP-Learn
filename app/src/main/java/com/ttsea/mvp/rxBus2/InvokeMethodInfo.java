@@ -1,4 +1,4 @@
-package com.ttsea.mvp.rxBus;
+package com.ttsea.mvp.rxBus2;
 
 import com.ttsea.jlibrary.common.JLog;
 

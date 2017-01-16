@@ -1,4 +1,4 @@
-package com.ttsea.mvp.rxBus;
+package com.ttsea.mvp.rxBus2;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

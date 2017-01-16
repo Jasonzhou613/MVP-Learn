@@ -1,4 +1,4 @@
-package com.ttsea.mvp.rxBus;
+package com.ttsea.mvp.rxBus2;
 
 import com.ttsea.jlibrary.common.JLog;
 
@@ -22,7 +22,7 @@ import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
 /**
- * RxBus，适用于发送少量事件信息，建议同时连续发送的信息少于1000 <br/>
+ * RxBus，该事件总线是基于RxJava2.x版本开发的，建议同时连续发送的信息少于1000 <br/>
  * <b><i>如何使用</i></b><br/>
  * 1.在Activity或者Fragment的onCreate中调用{@link #register(Object)}进行注册<br/>
  * 2.在Activity或者Fragment的onDestroy中调用{@link #unRegister(Object)} 进行反注册<br/>

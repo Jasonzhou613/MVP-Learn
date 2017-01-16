@@ -1,4 +1,4 @@
-package com.ttsea.mvp.rxBus;
+package com.ttsea.mvp.rxBus2;
 
 /**
  * 一般消息 <br/>

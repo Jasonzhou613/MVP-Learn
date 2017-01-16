@@ -9,7 +9,7 @@ import android.widget.EditText;
 import com.ttsea.mvp.R;
 import com.ttsea.mvp.base.BaseActivity;
 import com.ttsea.mvp.module.guide.MainGuideActivity;
-import com.ttsea.mvp.rxBus.RxBus;
+import com.ttsea.mvp.rxBus2.RxBus;
 
 /**
  * // to do <br/>

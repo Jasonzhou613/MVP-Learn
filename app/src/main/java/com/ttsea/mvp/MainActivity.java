@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.ttsea.jlibrary.common.JLog;
 import com.ttsea.jlibrary.common.JToast;
 import com.ttsea.mvp.base.BaseActivity;
 import com.ttsea.mvp.module.guide.MainGuideActivity;
 import com.ttsea.mvp.module.login.LoginActivity;
-import com.ttsea.mvp.module.login.User;
-import com.ttsea.mvp.rxBus.RxBus;
-import com.ttsea.mvp.rxBus.Subscribe;
-import com.ttsea.mvp.rxBus.ThreadMode;
+import com.ttsea.mvp.module.login.LoginEventEntity;
+import com.ttsea.mvp.rxBus2.RxBus;
+import com.ttsea.mvp.rxBus2.Subscribe;
 
 public class MainActivity extends BaseActivity {
     private final String TAG = "MainActivity";
@@ -61,15 +59,14 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-//    @Subscribe
-//    public void onLoginSuccess(String msg) {
-//        JToast.makeText(mActivity, "main, " + msg);
-//        JLog.d(TAG, "main, " + msg);
-//    }
-//
-//    @Subscribe
-//    public void onLoginSuccess(User user) {
-//        JToast.makeText(mActivity, "main, " + user.toString());
-//        JLog.d(TAG, "main, " + user.toString());
-//    }
+    @Subscribe
+    public void onLoginEvent(LoginEventEntity loginEventEntity) {
+        if (loginEventEntity.getStatus() == LoginEventEntity.ACTION_LOGIN_SUCCESS) {
+            JToast.makeText(mActivity, "login success");
+
+        } else if (loginEventEntity.getStatus() == LoginEventEntity.ACTION_LOGIN_FAILED) {
+            JToast.makeText(mActivity, "login failed, reason:" + loginEventEntity.getMsg());
+        }
+    }
+
 }

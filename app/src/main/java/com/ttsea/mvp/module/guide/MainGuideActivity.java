@@ -10,9 +10,8 @@ import com.ttsea.jlibrary.common.JToast;
 import com.ttsea.mvp.R;
 import com.ttsea.mvp.base.BaseActivity;
 import com.ttsea.mvp.module.login.LoginActivity;
-import com.ttsea.mvp.rxBus.RxBus;
-import com.ttsea.mvp.rxBus.Subscribe;
-import com.ttsea.mvp.rxBus.ThreadMode;
+import com.ttsea.mvp.rxBus2.RxBus;
+import com.ttsea.mvp.rxBus2.Subscribe;
 
 /**
  * // to do <br/>

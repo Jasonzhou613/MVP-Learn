@@ -196,6 +196,12 @@ public class BaseActivity extends Activity implements BaseView<BasePresenter> {
 
     /** 显示dialog */
     @Override
+    public void showDialog(String msg, DialogInterface.OnDismissListener listener) {
+        showDialog(msg, listener, false, true);
+    }
+
+    /** 显示dialog */
+    @Override
     public void showDialog(String msg, DialogInterface.OnDismissListener listener, boolean canceledOnTouchOutside, boolean cancelable) {
         if (myDialog == null || myDialog.isShowing()) {
             return;

@@ -6,6 +6,7 @@ import com.ttsea.jlibrary.common.JLog;
 import com.ttsea.jlibrary.utils.Utils;
 import com.ttsea.mvp.R;
 import com.ttsea.mvp.base.BasePresenterImpl;
+import com.ttsea.mvp.rxBus2.RxBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
 
         JLog.d(TAG, "login, userName:" + userName + ", pwd:" + pwd);
 
-        //loginView.showProgress(null, "正在登入...", true);
+        loginView.showProgress(null, "正在登入...", true);
         //test login
         String loginUrl = "http://test.api.huiweishang.com/app/ver5.2.0/login.php";
         Map<String, String> loginParams = new HashMap<>();
@@ -78,6 +79,17 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
     @Override
     public synchronized void handleErrorResponse(String errorMsg, int requestCode) {
         super.handleErrorResponse(errorMsg, requestCode);
+
+        loginView.dismissAllDialog();
+
+        switch (requestCode) {
+            case REQUEST_CODE_LOGIN:
+                RxBus.getInstance().post(new LoginEventEntity(LoginEventEntity.ACTION_LOGIN_FAILED, errorMsg));
+                break;
+
+            default:
+                break;
+        }
     }
 
     @Override
@@ -88,6 +100,11 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
 
         switch (requestCode) {
             case REQUEST_CODE_LOGIN:
+                loginView.dismissAllDialog();
+                RxBus.getInstance().post(new LoginEventEntity(LoginEventEntity.ACTION_LOGIN_SUCCESS));
+                break;
+
+            default:
                 break;
         }
 
