@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.ttsea.jlibrary.common.JToast;
+import com.ttsea.jrxbus2.RxBus2;
+import com.ttsea.jrxbus2.Subscribe;
 import com.ttsea.mvp.base.BaseActivity;
 import com.ttsea.mvp.module.guide.MainGuideActivity;
 import com.ttsea.mvp.module.login.LoginActivity;
 import com.ttsea.mvp.module.login.LoginEventEntity;
-import com.ttsea.mvp.rxBus2.RxBus;
-import com.ttsea.mvp.rxBus2.Subscribe;
 
 public class MainActivity extends BaseActivity {
     private final String TAG = "MainActivity";
@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RxBus.getInstance().register(this);
+        RxBus2.getInstance().register(this);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnGuide = (Button) findViewById(R.id.btnGuide);
@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.getInstance().unRegister(this);
+        RxBus2.getInstance().unRegister(this);
     }
 
     @Override

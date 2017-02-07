@@ -8,9 +8,9 @@ import android.view.KeyEvent;
 
 import com.ttsea.jlibrary.common.JLog;
 import com.ttsea.jlibrary.utils.Utils;
+import com.ttsea.jrxbus2.RxBus2;
 import com.ttsea.mvp.R;
 import com.ttsea.mvp.base.BasePresenterImpl;
-import com.ttsea.mvp.rxBus2.RxBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -119,7 +119,7 @@ public class LoginPresenter extends BasePresenterImpl implements Login.Presenter
                 loginView.dismissAllDialog();
                 LoginEventEntity loginEventEntity = new LoginEventEntity(LoginEventEntity.ACTION_LOGIN_SUCCESS);
                 loginEventEntity.setIntent(loginSuccessIntent);
-                RxBus.getInstance().post(loginEventEntity);
+                RxBus2.getInstance().post(loginEventEntity);
                 loginView.finish(Activity.RESULT_OK);
                 break;
 

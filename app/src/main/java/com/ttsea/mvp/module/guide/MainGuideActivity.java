@@ -7,11 +7,11 @@ import android.widget.Button;
 
 import com.ttsea.jlibrary.common.JLog;
 import com.ttsea.jlibrary.common.JToast;
+import com.ttsea.jrxbus2.RxBus2;
+import com.ttsea.jrxbus2.Subscribe;
 import com.ttsea.mvp.R;
 import com.ttsea.mvp.base.BaseActivity;
 import com.ttsea.mvp.module.login.LoginActivity;
-import com.ttsea.mvp.rxBus2.RxBus;
-import com.ttsea.mvp.rxBus2.Subscribe;
 
 /**
  * // to do <br/>
@@ -31,7 +31,7 @@ public class MainGuideActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_guide);
-        RxBus.getInstance().register(this);
+        RxBus2.getInstance().register(this);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
@@ -41,7 +41,7 @@ public class MainGuideActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.getInstance().unRegister(this);
+        RxBus2.getInstance().unRegister(this);
     }
 
     @Override

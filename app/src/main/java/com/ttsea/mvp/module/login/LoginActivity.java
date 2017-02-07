@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ttsea.jrxbus2.RxBus2;
 import com.ttsea.mvp.R;
 import com.ttsea.mvp.base.BaseActivity;
 import com.ttsea.mvp.module.guide.MainGuideActivity;
-import com.ttsea.mvp.rxBus2.RxBus;
 
 /**
  * // to do <br/>
@@ -76,11 +76,11 @@ public class LoginActivity extends BaseActivity implements Login.View {
                 break;
 
             case R.id.btnSendEvent:
-                RxBus.getInstance().post("normal event");
+                RxBus2.getInstance().post("normal event");
                 break;
 
             case R.id.btnSendStickEvent:
-                RxBus.getInstance().postStickyEvent(2, "sticky event");
+                RxBus2.getInstance().postStickyEvent(2, "sticky event");
                 break;
 
             default:
