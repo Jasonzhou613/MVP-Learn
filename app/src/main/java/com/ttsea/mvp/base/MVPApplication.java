@@ -46,6 +46,15 @@ public class MVPApplication extends JBaseApplication {
         initImageLoader(this);
     }
 
+    private void initGlobalConfig() {
+        if (Config.DEBUG) {
+            JLog.enableLogging();
+            MVPSingleton.setRefWatcher(LeakCanary.install(this));
+        } else {
+            JLog.disableLogging();
+        }
+    }
+
     private void initImageLoader(Context appContext) {
         File cacheDir = new File(CacheDirUtils.getImageCacheDir(appContext));
 
@@ -73,14 +82,5 @@ public class MVPApplication extends JBaseApplication {
                 .build();
 
         ImageLoader.getInstance().init(config); // 初始化
-    }
-
-    private void initGlobalConfig() {
-        if (Config.DEBUG) {
-            JLog.enableLogging();
-            MVPSingleton.setRefWatcher(LeakCanary.install(this));
-        } else {
-            JLog.disableLogging();
-        }
     }
 }
