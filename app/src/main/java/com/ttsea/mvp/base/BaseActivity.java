@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ttsea.jlibrary.base.JBaseApplication;
 import com.ttsea.jlibrary.common.JLog;
 import com.ttsea.jlibrary.component.dialog.MyAlertDialog;
 import com.ttsea.jlibrary.component.dialog.MyDialog;
@@ -53,7 +52,7 @@ public class BaseActivity extends Activity implements BaseView<BasePresenter> {
         super.onCreate(savedInstanceState);
         mActivity = this;
 
-        JBaseApplication.addActivity(mActivity);
+        MVPApplication.addActivity(mActivity);
         //调试模式下，使其能够使用hierarchyview
         if (JLog.isDebugMode()) {
             ViewServer.get(mActivity).addWindow(this);
@@ -137,7 +136,7 @@ public class BaseActivity extends Activity implements BaseView<BasePresenter> {
                 l.onDestroy();
             }
         }
-        JBaseApplication.removeActivity(mActivity);
+        MVPApplication.removeActivity(mActivity);
         if (mBasePresenter != null && mBasePresenter instanceof BaseRequestWork) {
             BaseRequestWork baseRequestWork = (BaseRequestWork) mBasePresenter;
             baseRequestWork.cancelRequest(baseRequestWork.getRequestTag());

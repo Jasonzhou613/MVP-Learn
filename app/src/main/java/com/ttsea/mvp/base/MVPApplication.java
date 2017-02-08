@@ -1,5 +1,7 @@
 package com.ttsea.mvp.base;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -10,7 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.squareup.leakcanary.LeakCanary;
-import com.ttsea.jlibrary.base.JBaseApplication;
+import com.ttsea.jlibrary.base.JLibrary;
 import com.ttsea.jlibrary.common.JLog;
 import com.ttsea.jlibrary.utils.CacheDirUtils;
 import com.ttsea.mvp.R;
@@ -18,6 +20,8 @@ import com.ttsea.mvp.common.MVPSingleton;
 import com.ttsea.mvp.config.Config;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * // to do <br/>
@@ -28,7 +32,9 @@ import java.io.File;
  * <b>version:</b> 1.0 <br/>
  * <b>last modified date:</b> 2016/12/5 11:35.
  */
-public class MVPApplication extends JBaseApplication {
+public class MVPApplication extends Application {
+    private static final String TAG = "MVPApplication";
+    private List<Activity> mActivityList = new LinkedList<Activity>();
 
     @Override
     public void onCreate() {
@@ -53,6 +59,8 @@ public class MVPApplication extends JBaseApplication {
         } else {
             JLog.disableLogging();
         }
+
+        JLibrary.init(getApplicationContext());
     }
 
     private void initImageLoader(Context appContext) {
@@ -82,5 +90,37 @@ public class MVPApplication extends JBaseApplication {
                 .build();
 
         ImageLoader.getInstance().init(config); // 初始化
+    }
+
+    /** 添加Activity到ActivityList中 */
+    public static void addActivity(Activity activity) {
+        if (activity != null && activity.getApplication() instanceof MVPApplication) {
+            List<Activity> activities = ((MVPApplication) activity.getApplication()).mActivityList;
+            if (!activities.contains(activity)) {
+                activities.add(activity);
+            }
+            JLog.d(TAG, "size:" + activities.size());
+        }
+    }
+
+    /** 从ActivityList中移除Activity */
+    public static void removeActivity(Activity activity) {
+        if (activity != null && activity.getApplication() instanceof MVPApplication) {
+            List<Activity> activities = ((MVPApplication) activity.getApplication()).mActivityList;
+            activities.remove(activity);
+            JLog.d(TAG, "size:" + activities.size());
+        }
+    }
+
+    /** 遍历ActivityList中所有的Activity并finish，退出整个程序 */
+    public static void exitApplication(Activity activity) {
+        if (activity != null && activity.getApplication() instanceof MVPApplication) {
+            List<Activity> activities = ((MVPApplication) activity.getApplication()).mActivityList;
+            for (Activity a : activities) {
+                a.finish();
+            }
+            JLog.d(TAG, "Application exit...");
+            System.exit(0);
+        }
     }
 }
