@@ -33,37 +33,39 @@ public class HttpClient {
 
     public static OkHttpClient getHttpClient(Context context) {
         if (okHttpClient == null) {
-            File file = new File(CacheDirUtils.getDataCacheDir(context) + File.separator + "okHttpCache");
-            Cache cache = new Cache(file, 30 * 1024 * 1024);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
+            synchronized (HttpClient.class) {
+                File file = new File(CacheDirUtils.getDataCacheDir(context) + File.separator + "okHttpCache");
+                Cache cache = new Cache(file, 30 * 1024 * 1024);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
 
-            okHttpClient = new OkHttpClient.Builder()
-                    .cache(cache)
-                    .connectTimeout(15, TimeUnit.SECONDS)
-                    .writeTimeout(15, TimeUnit.SECONDS)
-                    .readTimeout(15, TimeUnit.SECONDS)
-                    .connectionPool(new ConnectionPool(6, 6, TimeUnit.MINUTES))
-                    .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-                    .build();
+                okHttpClient = new OkHttpClient.Builder()
+                        .cache(cache)
+                        .connectTimeout(15, TimeUnit.SECONDS)
+                        .writeTimeout(15, TimeUnit.SECONDS)
+                        .readTimeout(15, TimeUnit.SECONDS)
+                        .connectionPool(new ConnectionPool(6, 6, TimeUnit.MINUTES))
+                        .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
+                        .build();
 
-            JLog.d(TAG, "cache Dir:" + okHttpClient.cache().directory().getAbsolutePath() +
-                    ", \n" + "cacheHitCount: " + okHttpClient.cache().hitCount() +
-                    ", \n" + "cacheMaxCount: " + okHttpClient.cache().maxSize() +
-                    ", \n" + "cache network count: " + okHttpClient.cache().networkCount() +
-                    ", \n" + "cache request count: " + okHttpClient.cache().requestCount() +
-                    ", \n" + "connectTimeoutMillis: " + okHttpClient.connectTimeoutMillis() +
-                    ", \n" + "writeTimeoutMillis: " + okHttpClient.writeTimeoutMillis() +
-                    ", \n" + "readTimeoutMillis: " + okHttpClient.readTimeoutMillis() +
-                    ", \n" + "connectionPoolCount: " + okHttpClient.connectionPool().connectionCount() +
-                    ", \n" + "connectionPoolIdleCount: " + okHttpClient.connectionPool().idleConnectionCount() +
-                    "");
-            try {
-                JLog.d(TAG, "cacheSize: " + okHttpClient.cache().size() +
+                JLog.d(TAG, "cache Dir:" + okHttpClient.cache().directory().getAbsolutePath() +
+                        ", \n" + "cacheHitCount: " + okHttpClient.cache().hitCount() +
+                        ", \n" + "cacheMaxCount: " + okHttpClient.cache().maxSize() +
+                        ", \n" + "cache network count: " + okHttpClient.cache().networkCount() +
+                        ", \n" + "cache request count: " + okHttpClient.cache().requestCount() +
+                        ", \n" + "connectTimeoutMillis: " + okHttpClient.connectTimeoutMillis() +
+                        ", \n" + "writeTimeoutMillis: " + okHttpClient.writeTimeoutMillis() +
+                        ", \n" + "readTimeoutMillis: " + okHttpClient.readTimeoutMillis() +
+                        ", \n" + "connectionPoolCount: " + okHttpClient.connectionPool().connectionCount() +
+                        ", \n" + "connectionPoolIdleCount: " + okHttpClient.connectionPool().idleConnectionCount() +
                         "");
-            } catch (Exception e) {
-                JLog.e(TAG, "Exception e:" + e.toString());
+                try {
+                    JLog.d(TAG, "cacheSize: " + okHttpClient.cache().size() +
+                            "");
+                } catch (Exception e) {
+                    JLog.e(TAG, "Exception e:" + e.toString());
+                }
             }
         }
 

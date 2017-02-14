@@ -1,0 +1,37 @@
+//apply tinker插件
+apply plugin: 'com.tencent.tinker.patch'
+
+dependencies {
+    //optional, help to generate the final application
+    provided('com.tencent.tinker:tinker-android-anno:1.7.7')
+    //tinker's main Android lib
+    compile('com.tencent.tinker:tinker-android-lib:1.7.7')
+}
+
+tinkerPatch {
+    //有问题的apk的地址
+    oldApk = "F://app_bug.apk"
+    ignoreWarning = false
+    useSign = true
+    buildConfig {
+        tinkerId = "1.0"
+    }
+    packageConfig {
+        configField("TINKER_ID", "1.0")
+    }
+    dex {
+        dexMode = "jar"
+        pattern = ["classes*.dex", "assets/secondary-dex-?.jar"]
+        loader = ["com.tencent.tinker.loader.*", "com.tinkertest.Application"]
+    }
+    lib {
+        pattern = ["lib/armeabi/*.so", "lib/arm64-v8a/*.so", "lib/armeabi-v7a/*.so", "lib/mips/*.so", "lib/mips64/*.so", "lib/x86/*.so", "lib/x86_64/*.so"]
+    }
+    res {
+        pattern = ["res/*", "assets/*", "resources.arsc", "AndroidManifest.xml"]
+        largeModSize = 100
+    }
+    sevenZip {
+        zipArtifact = "com.tencent.mm:SevenZip:1.1.10"
+    }
+}
